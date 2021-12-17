@@ -1,0 +1,23 @@
+{
+  "miniprogramRoot": "dist/",
+  "projectname": "rs-lark",
+  "description": "",
+  "appid": "cli_a13c0598aa78900c",
+  "setting": {
+    "urlCheck": true,
+    "es6": false,
+    "postcss": false,
+    "preloadBackgroundData": false,
+    "minified": false,
+    "newFeature": true,
+    "autoAudits": false,
+    "coverView": true,
+    "showShadowRootInWxmlPanel": false,
+    "scopeDataCheck": false,
+    "useCompilerModule": false
+  },
+  "compileType": "miniprogram",
+  "simulatorType": "wechat",
+  "simulatorPluginLibVersion": {},
+  "condition": {}
+}
