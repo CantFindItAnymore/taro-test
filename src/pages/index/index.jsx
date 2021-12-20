@@ -1,15 +1,45 @@
+import { useState, useEffect } from "react";
+import Taro from "@tarojs/taro";
+
 import { Image, View, Text } from "@tarojs/components";
 import { AtDivider, AtList, AtListItem } from "taro-ui";
 
 import Tabs from "../../components/Tabs";
 import "./index.styl";
 
-import banner from "../../assets/banner.jpeg";
+import banner from "../../assets/snow.jpg";
 
 const Index = () => {
+  useEffect(() => {
+    login();
+  }, []);
+
+  // 登录
+  const login = () => {
+    Taro.login({
+      success: function({ code, errMsg }) {
+        if (code) {
+          //发起网络请求
+          Taro.request({
+            url: "https://test.com/onLogin",
+            data: {
+              code: code
+            },
+            success: res => {
+              // 登陆成功
+              console.log("登陆信息", res);
+            }
+          });
+        } else {
+          console.log("登录失败！" + errMsg);
+        }
+      }
+    });
+  };
+
   return (
     <View className="container">
-      <Image src={banner} className="banner" />
+      <View className="banner" />
       <View className="work">
         <Text className="title">工作协同</Text>
         <AtDivider height="40" />
