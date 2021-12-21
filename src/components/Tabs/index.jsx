@@ -16,7 +16,7 @@ const Tabs = () => {
     const { path } = Taro.getCurrentInstance().router;
 
     switch (path) {
-      case "/pages/index/index":
+      case "/pages/home/index":
         setActiveTab(0);
         break;
       case "/pages/review/index":
@@ -46,7 +46,7 @@ const Tabs = () => {
           switch (e) {
             case 0:
               Taro.redirectTo({
-                url: "/pages/index/index"
+                url: "/pages/home/index"
               });
               break;
             case 1:

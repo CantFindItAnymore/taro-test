@@ -1,13 +1,16 @@
 import { useState, useEffect } from "react";
 import Taro from "@tarojs/taro";
 
-import { Image, View, Text } from "@tarojs/components";
+import { View, Text } from "@tarojs/components";
 import { AtDivider, AtList, AtListItem } from "taro-ui";
 
 import Tabs from "../../components/Tabs";
 import "./index.styl";
+// import banner from "../../assets/snow.jpg";
 
-import banner from "../../assets/snow.jpg";
+import { CommonModel } from "../../../api/models/common";
+
+const Common = new CommonModel();
 
 const Index = () => {
   useEffect(() => {
@@ -19,16 +22,10 @@ const Index = () => {
     Taro.login({
       success: function({ code, errMsg }) {
         if (code) {
-          //发起网络请求
-          Taro.request({
-            url: "https://test.com/onLogin",
-            data: {
-              code: code
-            },
-            success: res => {
-              // 登陆成功
-              console.log("登陆信息", res);
-            }
+          Common.login({
+            code
+          }).then(res => {
+            console.log("登陆成功信息", res);
           });
         } else {
           console.log("登录失败！" + errMsg);
