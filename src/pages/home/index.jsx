@@ -5,16 +5,24 @@ import { View, Text } from "@tarojs/components";
 import { AtDivider, AtList, AtListItem } from "taro-ui";
 
 import Tabs from "../../components/Tabs";
-import "./index.styl";
+import styles from "./index.module.styl";
 // import banner from "../../assets/snow.jpg";
 
 import { CommonModel } from "../../../api/models/common";
 
+import { HomeModel } from "../../../api/models/home";
+
 const Common = new CommonModel();
 
+const Home = new HomeModel();
+
 const Index = () => {
+  const [count, setCount] = useState({});
+  const [list, setList] = useState([]);
+
   useEffect(() => {
-    login();
+    // login();
+    init();
   }, []);
 
   // 登录
@@ -34,42 +42,88 @@ const Index = () => {
     });
   };
 
+  const init = () => {
+    _getCount();
+    _getList();
+  };
+
+  // 获取数量
+  const _getCount = () => {
+    Home.getCount().then(res => {
+      setCount(res);
+    });
+  };
+
+  // 获取列表
+  const _getList = () => {
+    Home.getList({
+      pageNum: 1,
+      pageSize: 10
+    }).then(res => {
+      setList(res.list);
+    });
+  };
+
   return (
-    <View className="container">
-      <View className="banner" />
-      <View className="work">
-        <Text className="title">工作协同</Text>
+    <View className={styles.container}>
+      <View className={styles.banner} />
+      <View className={styles.work}>
+        <Text className={styles.title}>工作协同</Text>
         <AtDivider height="40" />
-        <View className="nav">
-          <View className="left">待办事项</View>
-          <View className="right">
-            <View className="top">今日已办</View>
-            <View className="bot">逾期事项</View>
+        <View className={styles.nav}>
+          <View
+            className={styles.left}
+            onClick={() => {
+              Taro.navigateTo({
+                url: "/pages/review/index"
+              });
+            }}
+          >
+            待办事项{`(${count?.todoTaskNum})`}
+          </View>
+          <View className={styles.right}>
+            <View
+              className={styles.top}
+              onClick={() => {
+                Taro.navigateTo({
+                  url: "/pages/review/index?type=1"
+                });
+              }}
+            >
+              今日已办
+              {`(${count?.todayDoneTaskNum})`}
+            </View>
+            <View
+              className={styles.bot}
+              onClick={() => {
+                Taro.navigateTo({
+                  url: "/pages/review/index"
+                });
+              }}
+            >
+              逾期事项
+              {`(${count?.withinTimeLimitTaskNum})`}
+            </View>
           </View>
         </View>
       </View>
-      <View className="list">
+      <View className={styles.list}>
         <AtList>
-          <AtListItem
-            thumb="http://img12.360buyimg.com/jdphoto/s72x72_jfs/t10660/330/203667368/1672/801735d7/59c85643N31e68303.png"
-            title="标题文字"
-            arrow="right"
-          />
-          <AtListItem
-            thumb="http://img12.360buyimg.com/jdphoto/s72x72_jfs/t10660/330/203667368/1672/801735d7/59c85643N31e68303.png"
-            title="标题文字"
-            arrow="right"
-          />
-          <AtListItem
-            thumb="http://img12.360buyimg.com/jdphoto/s72x72_jfs/t10660/330/203667368/1672/801735d7/59c85643N31e68303.png"
-            title="标题文字"
-            arrow="right"
-          />
-          <AtListItem
-            thumb="http://img12.360buyimg.com/jdphoto/s72x72_jfs/t10660/330/203667368/1672/801735d7/59c85643N31e68303.png"
-            title="禁用状态"
-            arrow="right"
-          />
+          {list.map(item => {
+            return (
+              <AtListItem
+                onClick={() => {
+                  Taro.navigateTo({
+                    url: "/pages/viewdetail/index?id=" + item.taskId
+                  });
+                }}
+                key={item.taskId}
+                title={item.processInstanceName}
+                note={`发起人：${item.authenticatedUserName} 发起时间：${item.createTime}`}
+                arrow="right"
+              />
+            );
+          })}
         </AtList>
       </View>
       <Tabs />

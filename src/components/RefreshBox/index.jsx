@@ -12,6 +12,7 @@ function RefreshBox(props) {
       refresherEnabled
       refresherTriggered
       enableBackToTop
+      refresherDefaultStyle="white"
       refresherBackground="#ccc"
       scrollY
       scrollWithAnimation

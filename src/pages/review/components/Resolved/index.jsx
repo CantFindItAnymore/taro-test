@@ -7,34 +7,38 @@ import { ReviewModel } from "../../../../../api/models/review";
 
 const Review = new ReviewModel();
 
-function WaitResolve() {
-  const [waitResolveList, setWaitResolveList] = useState([]); // 待办事项
-
+function Resolved() {
+  const [resolvedList, setResolvedList] = useState([]); // 已办
   useEffect(() => {
     init();
   }, []);
 
   const init = () => {
-    _getWaitResolveList();
+    _getResolvedList();
   };
 
-  // 【api】获取待办事项
-  const _getWaitResolveList = () => {
-    Review.getWaitResolveList({
+  // 【api】获取已办
+  const _getResolvedList = () => {
+    Review.getResolvedList({
+      endTime: "",
+      eventNumber: "",
       pageNum: 1,
-      pageSize: 500
+      pageSize: 10,
+      processDefinitionKey: "",
+      startTime: "",
+      state: ""
     }).then(res => {
-      setWaitResolveList(res.list);
+      setResolvedList(res.list);
     });
   };
 
   return (
     <RefreshBox height="calc(100vh - 230rpx)">
-      {waitResolveList?.map(item => (
+      {resolvedList?.map(item => (
         <ReviewItem item={item} key={item.taskId} />
-      )) || <Empty title="暂无待办事项数据" />}
+      )) || <Empty title="暂无已办数据" />}
     </RefreshBox>
   );
 }
 
-export default WaitResolve;
+export default Resolved;

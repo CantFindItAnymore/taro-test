@@ -37,6 +37,14 @@ class ReviewModel extends HTTP {
       method: "POST"
     });
   }
+
+  // 获取审批详情
+  getDetail(data) {
+    return this.request({
+      url: "/workflow/workflow/detail",
+      data
+    });
+  }
 }
 
 export { ReviewModel };

@@ -4,14 +4,17 @@ class HomeModel extends HTTP {
   // 获取数量
   getCount() {
     return this.request({
-      url: "/system-index/front"
+      url: "/workflow/workflow/task/statistical",
+      method: "POST"
     });
   }
 
-  // 获取列表
-  getList() {
+  // 获取待办列表
+  getList(data) {
     return this.request({
-      url: "/system-index/front"
+      url: "/workflow/workflow/page_tasks",
+      method: "POST",
+      data
     });
   }
 }

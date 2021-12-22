@@ -13,6 +13,11 @@ const ReviewItem = props => {
       note={`审批时间：${item.createTime}`}
       extra="额外信息"
       title={item.processDefinitionName}
+      onClick={() => {
+        Taro.navigateTo({
+          url: "/pages/viewdetail/index?id=" + item.taskId
+        });
+      }}
     >
       <View className={styles.txt}>
         具体任务内容：{item.processInstanceName}
