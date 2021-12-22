@@ -63,7 +63,7 @@ const http = class HTTP {
 
             default:
               console.log("IO成功但请求失败：", res);
-              this._showErr(res.data.error);
+              this._showErr(res.data.error.message);
               reject();
               break;
           }

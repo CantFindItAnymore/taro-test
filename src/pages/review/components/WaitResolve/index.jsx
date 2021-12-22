@@ -22,7 +22,7 @@ function WaitResolve() {
   const _getWaitResolveList = () => {
     Review.getWaitResolveList({
       pageNum: 1,
-      pageSize: 500
+      pageSize: 10
     }).then(res => {
       setWaitResolveList(res.list);
     });
