@@ -35,6 +35,7 @@ const Index = () => {
   return (
     <View className={styles.container}>
       <AtTabs
+        swipeable={false}
         current={current}
         tabList={tabList}
         onClick={e => {

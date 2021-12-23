@@ -17,7 +17,11 @@ const Common = new CommonModel();
 const Home = new HomeModel();
 
 const Index = () => {
-  const [count, setCount] = useState({});
+  const [count, setCount] = useState({
+    todoTaskNum: 0,
+    todayDoneTaskNum: 0,
+    withinTimeLimitTaskNum: 0
+  });
   const [list, setList] = useState([]);
 
   useEffect(() => {
