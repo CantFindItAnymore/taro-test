@@ -26,7 +26,7 @@ function ViewDetail() {
   // 获取入参并获取详情
   const _getParams = () => {
     const { id } = Taro.getCurrentInstance().router.params;
-    console.log(id);
+    console.log("传入的id", id);
 
     if (id) {
       Review.getDetail({ id }).then(res => {
@@ -36,7 +36,7 @@ function ViewDetail() {
   };
 
   return detail?.processDefinitionKey ? (
-    <ViewDetailWrapper>
+    <ViewDetailWrapper detail={detail}>
       <View className={styles.container}>
         {/* 订单 */}
         {detail?.processDefinitionKey === "order_process" && <OrderDetail />}
