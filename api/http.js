@@ -20,7 +20,7 @@ const codeMessage = {
 };
 
 const http = class HTTP {
-  request({ url, data = {}, method = "GET", type = "json" }) {
+  request({ url, data = {}, method = "GET", type = "application/json" }) {
     return new Promise((resolve, reject) => {
       this._request(url, resolve, reject, data, method, type);
     });
@@ -34,12 +34,13 @@ const http = class HTTP {
 
     const header = {
       "api-version": "1.0",
-      "content-type": `application/${type}`,
-      Authorization: Taro.getStorageSync("token")
-        ? Taro.getStorageSync("token")
-        : url === "/auth/auth/feishu/token"
-        ? ""
-        : "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNyIsInVzZXJfbmFtZSI6IndhbmdsZWlqdW4iLCJzY29wZSI6WyJhbGwiXSwibmFtZSI6IjU0NkxiR1ZwYW5WdSIsImV4cCI6MTY0MDY1NzcxMSwianRpIjoidkJFTXI5Q1Y5cHNuZ3g4ZHQzREpwakVEZFlnIiwicGxhdGVfY29kZSI6Ik9WSEEiLCJjbGllbnRfaWQiOiJ3ZWItY2xpZW50In0.DHPuDssZgLD9FMG9bE3JHWKNxzYUW3IZtSO4umvdw0M"
+      "content-type": type,
+      path: url === "/auth/oauth/token" ? "/login" : "",
+      Authorization:
+        url === "/auth/oauth/token"
+          ? "Basic d2ViLWNsaWVudDpUVFNTT0RtQUJwRVNCTUZSYXpPb0ZwdEhFa2FsV3loVw=="
+          : Taro.getStorageSync("token") ??
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNyIsInVzZXJfbmFtZSI6IndhbmdsZWlqdW4iLCJzY29wZSI6WyJhbGwiXSwibmFtZSI6IjU0NkxiR1ZwYW5WdSIsImV4cCI6MTY0MDY1NzcxMSwianRpIjoidkJFTXI5Q1Y5cHNuZ3g4ZHQzREpwakVEZFlnIiwicGxhdGVfY29kZSI6Ik9WSEEiLCJjbGllbnRfaWQiOiJ3ZWItY2xpZW50In0.DHPuDssZgLD9FMG9bE3JHWKNxzYUW3IZtSO4umvdw0M"
     };
 
     Taro.request({

@@ -4,8 +4,11 @@ class CommonModel extends HTTP {
   // 登录
   login(data) {
     return this.request({
-      url: "/auth/auth/feishu/token",
-      data
+      url: "/auth/oauth/token",
+      data,
+      method: "POST"
+      // type:
+      //   "multipart/form-data; boundary=----WebKitFormBoundaryAjLehAgQzkqM4XcQ"
     });
   }
 

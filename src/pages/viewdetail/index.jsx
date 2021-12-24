@@ -35,11 +35,17 @@ function ViewDetail() {
     }
   };
 
+  const viewData = detail?.formData ? JSON.parse(detail.formData) : {};
+
+  console.log("viewData", viewData);
+
   return detail?.processDefinitionKey ? (
     <ViewDetailWrapper detail={detail}>
       <View className={styles.container}>
         {/* 订单 */}
-        {detail?.processDefinitionKey === "order_process" && <OrderDetail />}
+        {detail?.processDefinitionKey === "order_process" && (
+          <OrderDetail viewData={viewData} />
+        )}
         {/* 项目 */}
         {detail?.processDefinitionKey === "order_item_execution" && (
           <ProjectDetail />
@@ -62,7 +68,49 @@ function ViewDetail() {
           "principal_change",
           "company_info_change",
           "contact_change"
-        ].includes(detail?.processDefinitionKey) && <CustomerDetail />}
+        ].includes(detail?.processDefinitionKey) && (
+          <CustomerDetail
+            code={viewData?.code}
+            data={[
+              {
+                key: "主体信息",
+                value: viewData?.companyDetail
+              },
+              {
+                key: "客户集团",
+                value: viewData?.customerDetail
+              },
+              {
+                key: "联系人",
+                value: viewData?.contactDetail
+              },
+              {
+                key: "负责人",
+                value: viewData?.principal
+              },
+              {
+                key: "客户授信",
+                value: viewData?.credit
+              },
+              {
+                key: "客户账期",
+                value: viewData?.pamentList
+              },
+              {
+                key: "客户政策",
+                value: viewData?.policyList
+              },
+              {
+                key: "风控确认",
+                value: viewData?.companyPlateRisk
+              },
+              {
+                key: "内控复核",
+                value: viewData?.companyPlateInternal
+              }
+            ]}
+          />
+        )}
       </View>
     </ViewDetailWrapper>
   ) : (

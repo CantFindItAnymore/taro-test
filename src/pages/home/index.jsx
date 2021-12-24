@@ -25,7 +25,7 @@ const Index = () => {
   const [list, setList] = useState([]);
 
   useEffect(() => {
-    // login();
+    login();
     init();
   }, []);
 
@@ -35,7 +35,10 @@ const Index = () => {
       success: function({ code, errMsg }) {
         if (code) {
           Common.login({
-            code
+            code,
+            grant_type: "feishu",
+            remember: true,
+            scope: "all"
           }).then(res => {
             console.log("登陆成功信息", res);
           });
