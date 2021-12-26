@@ -6,13 +6,8 @@ import { AtDivider, AtList, AtListItem } from "taro-ui";
 
 import Tabs from "../../components/Tabs";
 import styles from "./index.module.styl";
-// import banner from "../../assets/snow.jpg";
-
-import { CommonModel } from "../../../api/models/common";
 
 import { HomeModel } from "../../../api/models/home";
-
-const Common = new CommonModel();
 
 const Home = new HomeModel();
 
@@ -25,29 +20,8 @@ const Index = () => {
   const [list, setList] = useState([]);
 
   useEffect(() => {
-    login();
     init();
   }, []);
-
-  // 登录
-  const login = () => {
-    Taro.login({
-      success: function({ code, errMsg }) {
-        if (code) {
-          Common.login({
-            code,
-            grant_type: "feishu",
-            remember: true,
-            scope: "all"
-          }).then(res => {
-            console.log("登陆成功信息", res);
-          });
-        } else {
-          console.log("登录失败！" + errMsg);
-        }
-      }
-    });
-  };
 
   const init = () => {
     _getCount();

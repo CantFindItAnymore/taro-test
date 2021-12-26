@@ -1,6 +1,4 @@
 const config = {
-  // baseUrl: "http://dog.ceo/api/breeds/image/random"
-  // baseUrl: "https://www.zhongjinwuliu.com//order/find"
   // 本地
   baseUrl: "http://192.168.10.128:38443"
 

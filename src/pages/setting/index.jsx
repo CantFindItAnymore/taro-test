@@ -24,16 +24,16 @@ const tabList = [{ title: "基本信息" }, { title: "修改密码" }];
 const Index = () => {
   const [current, setCurrent] = useState(0);
 
-  const [userInfo, setUserInfo] = useState({});
+  // const [userInfo, setUserInfo] = useState({});
   const [oldPass, setOldPass] = useState("");
   const [newPass, setNewPass] = useState("");
   const [confirmNewPass, setConfirmNewPass] = useState("");
 
-  useEffect(() => {
-    Setting.getUserInfo().then(res => {
-      setUserInfo(res);
-    });
-  }, []);
+  // useEffect(() => {
+  //   Setting.getUserInfo().then(res => {
+  //     setUserInfo(res);
+  //   });
+  // }, []);
 
   // 编辑密码
   const handleEditPass = () => {
@@ -43,6 +43,9 @@ const Index = () => {
         newPassword: newPass
       }).then(() => {
         _showSomeThing("修改密码成功");
+        setOldPass("");
+        setNewPass("");
+        setConfirmNewPass("");
       });
     }
   };
@@ -87,14 +90,23 @@ const Index = () => {
       >
         <AtTabsPane current={current} index={0}>
           <View className={styles.tab}>
-            {userInfo?.user?.id && (
+            {Taro.getStorageSync("userInfo")?.user?.id && (
               <AtList>
-                <AtListItem title="账户" extraText={userInfo?.user?.username} />
-                <AtListItem title="姓名" extraText={userInfo?.user?.name} />
-                <AtListItem title="角色" extraText={userInfo?.roles[0]?.name} />
+                <AtListItem
+                  title="账户"
+                  extraText={Taro.getStorageSync("userInfo")?.user?.username}
+                />
+                <AtListItem
+                  title="姓名"
+                  extraText={Taro.getStorageSync("userInfo")?.user?.name}
+                />
+                <AtListItem
+                  title="角色"
+                  extraText={Taro.getStorageSync("userInfo")?.roles[0]?.name}
+                />
                 <AtListItem
                   title="联系电话"
-                  extraText={userInfo?.user?.phone}
+                  extraText={Taro.getStorageSync("userInfo")?.user?.phone}
                 />
               </AtList>
             )}

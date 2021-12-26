@@ -7,12 +7,18 @@ import "./index.styl";
 
 import head from "../../assets/head.png";
 
-const Index = () => {
+const My = () => {
   return (
     <View className="container">
       <View className="banner">
         <Image src={head} className="banner-head" />
-        <Text>123</Text>
+        <Text>
+          {Taro.getStorageSync("userInfo")
+            ? `${Taro.getStorageSync("userInfo")?.organizations[0]?.name}@${
+                Taro.getStorageSync("userInfo")?.user?.name
+              }`
+            : null}
+        </Text>
       </View>
       <View className="list">
         <AtList hasBorder={false}>
@@ -40,4 +46,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default My;

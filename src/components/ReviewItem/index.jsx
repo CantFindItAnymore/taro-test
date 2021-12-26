@@ -14,7 +14,7 @@ const ReviewItem = props => {
       extra="额外信息"
       title={item.processDefinitionName}
       onClick={() => {
-        const id = item.taskId || item.processInstanceId;
+        const id = item.processInstanceId;
         Taro.navigateTo({
           url: "/pages/viewdetail/index?id=" + id
         });

@@ -45,6 +45,14 @@ class ReviewModel extends HTTP {
       data
     });
   }
+
+  // 获取合同详情
+  getContractDetail(data) {
+    return this.request({
+      url: "/contract/contract/detail_new",
+      data
+    });
+  }
 }
 
 export { ReviewModel };

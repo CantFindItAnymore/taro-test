@@ -12,6 +12,13 @@ class CommonModel extends HTTP {
     });
   }
 
+  // 获取用户信息
+  getUserInfo() {
+    return this.request({
+      url: "/member/user/userInfo"
+    });
+  }
+
   // 获取字典
   getDic(data) {
     return this.request({
