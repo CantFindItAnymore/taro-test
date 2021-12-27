@@ -95,7 +95,7 @@ const Index = () => {
               <AtListItem
                 onClick={() => {
                   Taro.navigateTo({
-                    url: "/pages/viewdetail/index?id=" + item.taskId
+                    url: "/pages/viewdetail/index?id=" + item.processInstanceId
                   });
                 }}
                 key={item.taskId}

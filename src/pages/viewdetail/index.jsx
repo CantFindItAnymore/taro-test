@@ -35,6 +35,7 @@ function ViewDetail() {
     }
   };
 
+  console.log(0, detail);
   const viewData = detail?.formData ? JSON.parse(detail.formData) : {};
 
   console.log("viewData", viewData);

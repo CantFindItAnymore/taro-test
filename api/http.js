@@ -1,5 +1,6 @@
 import Taro from "@tarojs/taro";
 import { config } from "./config";
+import snow from "./snow.jpg";
 
 console.log("test0");
 
@@ -38,13 +39,19 @@ const http = class HTTP {
     const header = {
       "api-version": "1.0",
       "content-type": type,
-      path: url === "/auth/oauth/token" ? "/login" : "",
       Authorization:
-        // "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMTE1IiwidXNlcl9uYW1lIjoicmFuanVuIiwic2NvcGUiOlsiYWxsIl0sIm5hbWUiOiI1WWFKNUwrSyIsImV4cCI6MTY0MTAyOTk4OSwianRpIjoiRV8zcXg4RGVjYWxiYjNaOEZXbndTNW04aUNRIiwicGxhdGVfY29kZSI6Ik9WSEEiLCJjbGllbnRfaWQiOiJ3ZWItY2xpZW50In0.o0DzvxouwjguFgJyElgIJ2e8OO_QAVuUh4iTkmU3UE8"
+        // "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMTAiLCJ1c2VyX25hbWUiOiJ6c2MiLCJzY29wZSI6WyJhbGwiXSwibmFtZSI6IjVieWdjMk09IiwiZXhwIjoxNjQxMTgwMTQyLCJqdGkiOiJWdmd4MGJDenRWa0tta0R0WnhMR3JRNlJKUUkiLCJwbGF0ZV9jb2RlIjoiT1ZIQSIsImNsaWVudF9pZCI6IndlYi1jbGllbnQifQ.ARANCd6L8zi2gqHy3yVAs3Hl18LOlUr4PQ3AVP8rh-0" // 128
+
+        // "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMTE5IiwidXNlcl9uYW1lIjoieWFuZ3pob25nIiwic2NvcGUiOlsiYWxsIl0sIm5hbWUiOiI1cDJvNlpLZiIsImV4cCI6MTY0MTIwNjAxNSwianRpIjoiZ2pSM1l5cTk3d3dsazB3LXoyeWMzQ25XVEFvIiwicGxhdGVfY29kZSI6Ik9WSEEiLCJjbGllbnRfaWQiOiJ3ZWItY2xpZW50In0.2yocXep9R5JmKmQXG0xDzbXqSHvkjwKp6s8ys8Hj4io" // 测试
+
         url === "/auth/oauth/token"
           ? "Basic d2ViLWNsaWVudDpUVFNTT0RtQUJwRVNCTUZSYXpPb0ZwdEhFa2FsV3loVw=="
-          : "Bearer " + Taro.getStorageSync("token") ?? ""
+          : Taro.getStorageSync("token")
+          ? "Bearer " + Taro.getStorageSync("token")
+          : "Bearer 555"
     };
+
+    console.log("header", header);
 
     Taro.request({
       url: config.baseUrl + url,
@@ -62,6 +69,7 @@ const http = class HTTP {
               resolve(res.data.content);
               break;
             case 9999:
+              console.log("test2");
               this._tokenOut();
               reject();
               break;
@@ -73,6 +81,7 @@ const http = class HTTP {
               break;
           }
         } else {
+          console.log("test3");
           this._showErr(codeMessage[res.statusCode.toString()]);
           reject();
         }
@@ -115,39 +124,53 @@ const http = class HTTP {
       mask: true
     });
 
-    Taro.login({
-      success: function({ code, errMsg }) {
-        Taro.uploadFile({
-          url: config.baseUrl + "/auth/oauth/token", //仅为示例，非真实的接口地址
-          filePath:
-            "ttfile://temp/14662389-0813-47f0-9d71-b46a191cdadc-WechatIMG26.jpeg",
-          header: {
-            "api-version": "1.0",
-            "content-type":
-              "multipart/form-data; boundary=----WebKitFormBoundaryAjLehAgQzkqM4XcQ",
-            path: "/login",
-            Authorization:
-              "Basic d2ViLWNsaWVudDpUVFNTT0RtQUJwRVNCTUZSYXpPb0ZwdEhFa2FsV3loVw=="
-          },
-          name: "file",
-          formData: {
-            code,
-            grant_type: "feishu",
-            remember: "true",
-            scope: "all"
-          },
-          success(res1) {
-            const token = JSON.parse(res1.data)?.content?.access_token;
-            console.log("token", token);
-            Taro.setStorage({
-              key: "token",
-              data: token
-            });
+    console.log(19, snow);
 
-            _this._getUserInfo(token);
+    Taro.compressImage({
+      src: snow, // 图片路径
+      quality: 20, // 压缩质量
+      success({ tempFilePath }) {
+        console.log(21, tempFilePath);
+        Taro.login({
+          success: function({ code, errMsg }) {
+            Taro.uploadFile({
+              url: config.baseUrl + "/auth/oauth/token", //仅为示例，非真实的接口地址
+              filePath: tempFilePath,
+              header: {
+                "api-version": "1.0",
+                "content-type":
+                  "multipart/form-data; boundary=----WebKitFormBoundaryAjLehAgQzkqM4XcQ",
+                path: "/login",
+                Authorization:
+                  "Basic d2ViLWNsaWVudDpUVFNTT0RtQUJwRVNCTUZSYXpPb0ZwdEhFa2FsV3loVw=="
+              },
+              name: "file",
+              formData: {
+                code,
+                grant_type: "feishu",
+                remember: "true",
+                scope: "all"
+              },
+              success(res1) {
+                const token = JSON.parse(res1.data)?.content?.access_token;
+                console.log("token", token);
+                Taro.setStorage({
+                  key: "token",
+                  data: token
+                });
+
+                _this._getUserInfo(token);
+              },
+              fail(err) {
+                console.log(33, err);
+              },
+              complete() {
+                Taro.hideLoading();
+              }
+            });
           },
-          complete() {
-            Taro.hideLoading();
+          fail(err) {
+            console.log(33, err);
           }
         });
       }
@@ -172,9 +195,9 @@ const http = class HTTP {
           key: "userInfo",
           data: res?.data?.content
         });
-        // Taro.reLaunch({
-        //   url: "/pages/home/index"
-        // });
+        Taro.reLaunch({
+          url: "/pages/home/index"
+        });
         _this._showErr("授权成功");
       }
     });
