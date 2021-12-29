@@ -1,17 +1,22 @@
 import Taro from "@tarojs/taro";
 import { View, Text } from "@tarojs/components";
 import { useState, useEffect } from "react";
-import { AtCard } from "taro-ui";
+import { AtCard, AtTag } from "taro-ui";
 import styles from "./index.module.styl";
 
 const ReviewItem = props => {
-  const { item } = props;
+  const { item, showTag = false } = props;
+
+  const createTag = state => {
+    console.log("state", state, showTag);
+    return showTag ? state : null;
+  };
 
   return (
     <AtCard
       className={styles.container}
-      note={`审批时间：${item.createTime}`}
-      extra="额外信息"
+      note={`通知时间：${item.createTime}`}
+      extra={createTag(item.state)}
       title={item.processDefinitionName}
       onClick={() => {
         const id = item.processInstanceId;

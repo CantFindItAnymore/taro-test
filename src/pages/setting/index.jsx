@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import Taro from "@tarojs/taro";
 
+import md5 from "js-md5";
 import { View, Text } from "@tarojs/components";
 import {
   AtTabs,
@@ -39,8 +40,8 @@ const Index = () => {
   const handleEditPass = () => {
     if (_check()) {
       Setting.editPass({
-        oldPassword: oldPass,
-        newPassword: newPass
+        oldPassword: md5(oldPass),
+        newPassword: md5(newPass)
       }).then(() => {
         _showSomeThing("修改密码成功");
         setOldPass("");

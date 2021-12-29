@@ -7,8 +7,6 @@ class CommonModel extends HTTP {
       url: "/auth/oauth/token",
       data,
       method: "POST"
-      // type:
-      //   "multipart/form-data; boundary=----WebKitFormBoundaryAjLehAgQzkqM4XcQ"
     });
   }
 

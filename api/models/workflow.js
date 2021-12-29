@@ -5,7 +5,7 @@ class WorkflowModel extends HTTP {
   approve(data) {
     return this.request({
       url: "/workflow/process/approve",
-      post: "POST",
+      method: "POST",
       data
     });
   }

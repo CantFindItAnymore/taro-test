@@ -20,6 +20,8 @@ const Workflow = new WorkflowModel();
 function ViewDetailWrapper(props) {
   const { detail } = props;
 
+  console.log("wwwwwww-----detail", detail);
+
   const [treeShow, setTreeShow] = useState(false);
   const [commentShow, setCommentShow] = useState(false);
   const [activeType, setActiveType] = useState("");
@@ -43,7 +45,7 @@ function ViewDetailWrapper(props) {
     }
     switch (activeType) {
       case "back":
-        Workflow.approval({
+        Workflow.approve({
           ccList: [],
           approval: "WITHDRAW",
           approvalComments: "",
@@ -58,14 +60,14 @@ function ViewDetailWrapper(props) {
             duration: 2000
           });
           setTimeout(() => {
-            Taro.navigateBack({
-              delta: 1
+            Taro.redirectTo({
+              url: "/pages/review/index?type=" + 1
             });
-          }, 1000);
+          }, 2000);
         });
         break;
       case "refuse":
-        Workflow.approval({
+        Workflow.approve({
           ccList: [],
           approval: "REJECT",
           approvalComments: comments,
@@ -80,14 +82,14 @@ function ViewDetailWrapper(props) {
             duration: 2000
           });
           setTimeout(() => {
-            Taro.navigateBack({
-              delta: 1
+            Taro.redirectTo({
+              url: "/pages/review/index?type=" + 1
             });
-          }, 1000);
+          }, 2000);
         });
         break;
       case "pass":
-        Workflow.approval({
+        Workflow.approve({
           ccList: [],
           approval: "PASS",
           approvalComments: comments,
@@ -102,10 +104,10 @@ function ViewDetailWrapper(props) {
             duration: 2000
           });
           setTimeout(() => {
-            Taro.navigateBack({
-              delta: 1
+            Taro.redirectTo({
+              url: "/pages/review/index?type=" + 1
             });
-          }, 1000);
+          }, 2000);
         });
         break;
 
@@ -131,8 +133,8 @@ function ViewDetailWrapper(props) {
       </View>
       <View className={styles.content}>{props.children}</View>
       <View className={styles.footer}>
-        {detail?.todoNode?.taskList[0]?.templateId === "mormal" ? (
-          <View>
+        {detail?.todoNode?.taskList[0]?.templateId === "normal" ? (
+          <View className={styles.btn}>
             <AtButton
               size="small"
               onClick={() => {

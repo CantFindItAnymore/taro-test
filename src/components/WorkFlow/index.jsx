@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { View } from "@tarojs/components";
+import { View, Text } from "@tarojs/components";
 
-import { AtTimeline, AtTag } from "taro-ui";
+import { AtTimeline, AtTag, AtAvatar } from "taro-ui";
 import styles from "./index.module.styl";
 
 const auditTypeDict = {
@@ -25,10 +25,34 @@ function WorkFlow(props) {
       temp.push({
         title: item.nodeName,
         content: [
-          item.createdDate,
-          <AtTag key={item?.taskList[0].taskId} type="primary" size="small">
-            {auditTypeDict[item?.taskList[0].state]}
-          </AtTag>
+          <View
+            className={styles.tag}
+            key={item?.taskList[0].taskId}
+            style={{ marginTop: "20rpx" }}
+          >
+            {item?.taskList?.map((_, index) => (
+              <View key={index}>
+                <AtTag size="small" style={{ margin: "10rpx 0" }}>
+                  {_?.assigneeName}
+                </AtTag>
+                <Text style={{ marginLeft: "10rpx" }}>{_.endTime}</Text>
+
+                <AtTag
+                  type="primary"
+                  size="small"
+                  style={{ marginLeft: "10rpx" }}
+                >
+                  {auditTypeDict[_.state]}
+                </AtTag>
+
+                <View style={{ margin: "20rpx 0" }}>
+                  {_.commentList?.map(x => (
+                    <Text key={x.message}>{`${x.message}`}</Text>
+                  ))}
+                </View>
+              </View>
+            ))}
+          </View>
         ]
       });
     });

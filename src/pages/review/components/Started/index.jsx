@@ -36,7 +36,7 @@ function Started() {
   return (
     <RefreshBox height="calc(100vh - 230rpx)">
       {startedList?.map(item => (
-        <ReviewItem item={item} key={item.taskId} />
+        <ReviewItem item={item} key={item.taskId} showTag />
       )) || <Empty title="暂无已发起数据" />}
     </RefreshBox>
   );

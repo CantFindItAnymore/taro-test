@@ -35,7 +35,7 @@ function Resolved() {
   return (
     <RefreshBox height="calc(100vh - 230rpx)">
       {resolvedList?.map(item => (
-        <ReviewItem item={item} key={item.taskId} />
+        <ReviewItem item={item} key={item.taskId} showTag />
       )) || <Empty title="暂无已办数据" />}
     </RefreshBox>
   );

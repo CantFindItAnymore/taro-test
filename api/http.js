@@ -127,7 +127,8 @@ const http = class HTTP {
     console.log(19, snow);
 
     Taro.compressImage({
-      src: snow, // 图片路径
+      src: snow, // 正式环境
+      // src: "http://tva1.sinaimg.cn/mw600/942f7cbbly1gxtcoj2m6tj20q40hoq4o.jpg", // 开发环境
       quality: 20, // 压缩质量
       success({ tempFilePath }) {
         console.log(21, tempFilePath);
